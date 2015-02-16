@@ -39,7 +39,7 @@ http://peter.bourgon.org/go-kit/#package-metrics
 
 ```go
 type Gauge interface {
-	With(fields ...Fields) Gauge
+	With(fields ...Field) Gauge
 	Set(value float64)
 	Inc(delta float64)
 }
@@ -49,7 +49,7 @@ type Gauge interface {
 
 ```go
 type Counter interface {
-	With(fields ...Fields) Counter
+	With(fields ...Field) Counter
 	Inc(delta uint64)
 }
 ```
@@ -58,7 +58,7 @@ type Counter interface {
 
 ```go
 type Histogram interface {
-	With(fields ...Fields) Histogram
+	With(fields ...Field) Histogram
 	Observe(time.Duration)
 }
 ```
