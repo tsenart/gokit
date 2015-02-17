@@ -59,7 +59,7 @@ type Counter interface {
 ```go
 type Histogram interface {
 	With(fields ...Field) Histogram
-	Observe(time.Duration)
+	Observe(int64)
 }
 ```
 
