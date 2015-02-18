@@ -14,7 +14,8 @@ import (
 func TestOkay(t *testing.T) {
 	ctx := context.Background()
 	codec := &AddCodecJSON{}
-	service := AddService(PureAdd)
+	downstream := func(_ context.Context) int { return 1 }
+	service := AddService(downstream)
 	server := httptest.NewServer(HTTPService(ctx, codec, service))
 	defer server.Close()
 
@@ -40,7 +41,7 @@ func TestOkay(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if want, have := (a + b), addResp.V; want != have {
+	if want, have := (a + b + downstream(ctx)), addResp.V; want != have {
 		t.Fatalf("want %d, have %d", want, have)
 	}
 }
