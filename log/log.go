@@ -61,7 +61,5 @@ type Wither interface {
 	With(keyvals ...interface{}) Logger
 }
 
-// NewDiscardLogger returns a logger that does not log anything.
-func NewDiscardLogger() Logger {
-	return LoggerFunc(func(...interface{}) error { return nil })
-}
+// Discard is a no-op logger.
+var Discard = LoggerFunc(func(...interface{}) error { return nil })
