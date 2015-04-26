@@ -14,28 +14,15 @@ type Valuer func() interface{}
 // a Valuer replaced by their generated value. If no Valuers are found, the
 // original slice is returned.
 func BindValues(keyvals ...interface{}) []interface{} {
-	if !containsValuer(keyvals) {
-		return keyvals
-	}
-
 	bound := make([]interface{}, len(keyvals))
-	copy(bound, keyvals)
-	for i := 1; i < len(bound); i += 2 {
-		if v, ok := bound[i].(Valuer); ok {
+	for i, val := range keyvals {
+		if v, ok := val.(Valuer); ok {
 			bound[i] = v()
+		} else {
+			bound[i] = val
 		}
 	}
-
 	return bound
-}
-
-func containsValuer(keyvals []interface{}) bool {
-	for i := 1; i < len(keyvals); i += 2 {
-		if _, ok := keyvals[i].(Valuer); ok {
-			return true
-		}
-	}
-	return false
 }
 
 // Timestamp returns a Valuer that invokes the underlying function when bound,
